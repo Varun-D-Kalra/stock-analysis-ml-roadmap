@@ -1,40 +1,48 @@
-# code for variance calculation for a list of numbers or decimal values
+# code for Standard deviation calculation for a list of numbers or decimal values
 import math
 
 
-def variance(arr):
-    if any(not isinstance(i, (int, float)) for i in arr):
-        raise ValueError("All elements must be integers or floats.")
-    # if array is having data
-    try:
-        squares = [x**2 for x in arr]
-        N = len(arr)
-        return math.sqrt(((sum(squares)) / N) - ((sum(arr)) / N) ** 2)
-    except IndexError:
-        print("No operations can be done on empty data set ")
+def standard_deviation(arr):
+    if arr:
+        if any(not isinstance(i, (int, float)) for i in arr):
+            raise ValueError("All elements must be integers or floats.")
+        if len(arr) < 2:
+            raise ValueError("At least two values are required to compute standard deviation.")
+        # if array is having data
+        mean_x = sum(arr) / len(arr)
+        variance = sum((x - mean_x) ** 2 for x in arr) / len(arr)
+        return math.sqrt(variance)
 
+        # code to accept values to calc SD
+    data = []
+    while True:
+        try:
+            value = input("Enter the values 1 by 1. Type quit to end the input data")
+            if value.lower().strip() == "quit":
+                break
 
-        # code to accept values to calc variance
-        data = []
-        while True:
             try:
-                value = input("Enter the values 1 by 1. Type quit to end the input data")
-                if value.lower().strip() == "quit":
-                    break
 
-                elif value.isalpha():
-                    print("Invalid input. No characters allowed enter a number or decimal")
+                data.append(float(value))  # Convert input to float
 
-                else:
-                    data.append(float(value))
+            except ValueError:
 
-            except Exception as e:
-                print(f"{e} happened")
-                return"RE run the program please"
+                print("Invalid input! Enter a number, not a string or character.")
+
+                continue  # Let user retry instead of exiting function
+
+        except Exception as e:
+            print(f"{e} happened")
+            return
 
         # now data has values in it.
         # compute X**2 then perform variance calc
-        squares = [x**2 for x in data]
-        N = len(squares)
+    if len(data) < 2:
+        raise ValueError("At least two values are required to compute standard deviation.")
 
-        return math.sqrt(((sum(squares))/ N) - ((sum(data))/N)**2)
+    mean_x = sum(data) / len(data)
+
+    # Compute Variance
+    variance = sum((x - mean_x) ** 2 for x in data) / len(data)
+
+    return math.sqrt(variance)  # Return Standard Deviation

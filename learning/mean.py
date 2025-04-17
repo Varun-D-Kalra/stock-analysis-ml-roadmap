@@ -30,5 +30,3 @@ def mean(arr : Optional[List[float]] = None):
         raise ValueError("Cannot calculate mean of an empty list!")
 
 
-m = mean()
-print(m)
