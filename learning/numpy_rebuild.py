@@ -88,6 +88,92 @@ class Numpy:
 
         return result
 
+    def variance(self, A):
+        if not A:
+            raise ValueError("Empty arrays, cannot compute anything.")
+
+        if not self.usability(A):
+            raise ValueError("Wrong Data type in the Arrays")
+
+        # make sure array is 1D not 2D
+        if isinstance(A[0], list):
+            raise ValueError("Invalid 2D array. Only 1D arrays are allowed for variance.")
+
+        if len(A) < 2:
+            raise ValueError("At least two values are required to compute variance.")
+
+        mean = self.mean(A)
+        deviations = [(x-mean)**2 for x in A]
+
+        return (sum(deviations)) / (len(A)-1)
+
+    def median(self, A):
+        if not A:
+            raise ValueError("Empty array, cannot compute Median")
+
+        if not self.usability(A):
+            raise ValueError("The array consists of some invalid data")
+
+        if isinstance(A[0], list):
+            raise ValueError("2D array is invalid please give only 1D arrays")
+
+        if len(A) < 2:
+            return "insufficient data in the array."
+
+        # sorting step
+        def quick_sort(arr):
+            if len(arr) == 1:
+                return arr
+
+            pivot = arr[0]
+            low =  [x for x in arr if x< pivot]
+            high = [x for x in arr if x > pivot]
+
+            return quick_sort(low) + [pivot] + quick_sort(high)
+
+        sorted_arr = quick_sort(A)
+        n = len(sorted_arr)
+
+        if n % 2 == 1:  # Odd number of elements
+            return sorted_arr[n // 2]
+
+        else:  # Even number of elements
+            mid1, mid2 = n // 2, (n // 2) - 1
+            return (sorted_arr[mid1] + sorted_arr[mid2]) / 2
+
+
+    def argmax(self, arr):
+        if not arr:     # check for void
+            raise ValueError("The array cannot be empty")
+
+        if not self.usability(arr):     # check for valid input
+            raise ValueError("Cannot process invalid data.")
+
+        if isinstance(arr[0], list):    # for 2d array
+            index = [0, 0]
+            cur = arr[0][0]
+
+            for row in range(len(arr)):
+                for col in range(len(arr[row])):
+                    if arr[row][col] > cur:
+                        index = [row, col]
+                        cur = arr[row][col]
+
+            return index    # result for 2D matrix
+
+        if isinstance(arr[0], (int, float)):    # code for 1D array
+            index = 0
+            cur = arr[0]
+
+            for i in range(len(arr)):
+                if arr[i] > cur:
+                    cur = arr[i]
+                    index = i
+
+            return index
+    def transpose(self, arr):
+        pass
+
 
 A = [
     [1,2,3],
