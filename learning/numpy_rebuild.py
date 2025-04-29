@@ -172,7 +172,29 @@ class Numpy:
 
             return index
     def transpose(self, arr):
-        pass
+        if not arr:
+            raise ValueError("Cannot accept empty matrices")
+
+        if not self.usability(arr):
+            raise ValueError("There exists invalid data in the array.")
+
+        if not isinstance(arr[0], list):    # make sure its 2D
+            raise TypeError("Only 2D matrices can be transposed")
+
+        match = arr[0]      # make sure all sub arrays are of same length
+        for x in arr:
+            if len(x) != len(match):
+                raise ValueError("The sub arrays are of unequal lengths.")
+
+        result = []
+        for cols in range(len(arr[0])):
+            sub = []
+            for row in range(len(arr)):
+                sub.append(arr[row][cols])
+            result.append(sub)
+
+        return result
+
 
 
 A = [
@@ -187,3 +209,5 @@ B = [
 ]
 obj = Numpy()
 print(obj.dot(A, B))
+
+print(obj.transpose(A))
