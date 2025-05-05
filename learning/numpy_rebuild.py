@@ -195,6 +195,35 @@ class Numpy:
 
         return result
 
+    def argmin(self, arr):
+        if not arr:     # check for void
+            raise ValueError("The array cannot be empty")
+
+        if not self.usability(arr):     # check for valid input
+            raise ValueError("Cannot process invalid data.")
+
+        if isinstance(arr[0], list):    # for 2d array
+            index = [0, 0]
+            cur = arr[0][0]
+
+            for row in range(len(arr)):
+                for col in range(len(arr[row])):
+                    if arr[row][col] < cur:
+                        index = [row, col]
+                        cur = arr[row][col]
+
+            return index    # result for 2D matrix
+
+        if isinstance(arr[0], (int, float)):    # code for 1D array
+            index = 0
+            cur = arr[0]
+
+            for i in range(len(arr)):
+                if arr[i] < cur:
+                    cur = arr[i]
+                    index = i
+
+            return index
 
 
 A = [
